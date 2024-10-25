@@ -1,55 +1,59 @@
 package ru.gentlyne.roadmap.hangman;
 
-import java.util.Random;
+import java.util.*;
 
 public class Engine {
     
     public static final int LENGTH_WORST_CHARS = 6;
     
     private String hiddenWord;
-    private char[] hiddenChars;
-    private char[] worstChars = new char[LENGTH_WORST_CHARS];
-    private int countWorstChars = 0;
+    private char[] guessedChars;
+    private List<Character> worstChars = new ArrayList<>(LENGTH_WORST_CHARS);
     
     public Engine(String[] poolWords) {
         Random random = new Random(System.currentTimeMillis());
-        this.hiddenWord = poolWords[random.nextInt(poolWords.length)].toUpperCase();
-        this.hiddenChars = "_".repeat(this.hiddenWord.length()).toCharArray();
+        this.hiddenWord = poolWords[random.nextInt(poolWords.length)].toLowerCase();
+        this.guessedChars = "_".repeat(this.hiddenWord.length()).toCharArray();
     }
     
     public boolean isWinGame() {
-        return hiddenWord.equals(new String(hiddenChars));
+        return hiddenWord.equals(new String(guessedChars));
     }
     
     public boolean isLossGame() {
-        return countWorstChars >= LENGTH_WORST_CHARS;
+        return worstChars.size() >= LENGTH_WORST_CHARS;
     }
     
     public void suggestLetter(String input) {
-        if (input.length() != 1 || !Character.isLetter(input.charAt(0))) {
+        if (input.length() != 1) {
             throw new IllegalLetterException();
         }
         
-        String letter = input.toUpperCase();
+        suggestLetter(input.charAt(0));
+    }
+    
+    public void suggestLetter(Character input) {
+        if (!Character.isLetter(input) || ! Character.isLowerCase(input)) {
+            throw new IllegalLetterException();
+        }
         
-        if (hiddenWord.contains(letter)) {
-            int index = hiddenWord.indexOf(letter);
-            while (index > -1) {
-                hiddenChars[index] = letter.charAt(0);
-                index = hiddenWord.indexOf(letter, index + 1);
-            }
+        int index = hiddenWord.indexOf(input);
+        if (index == -1 && !worstChars.contains(input)) {
+            worstChars.add(input);      
         } else {
-            worstChars[countWorstChars] = letter.charAt(0);
-            countWorstChars++;
+            while (index > -1) {
+                guessedChars[index] = input;
+                index = hiddenWord.indexOf(input, index + 1);
+            }            
         }
     }
 
-    public char[] getHiddenChars() {
-        return hiddenChars;
+    public char[] getGuessedChars() {
+        return guessedChars;
     }
     
     public int getCountWorstChars() {
-        return countWorstChars;
+        return worstChars.size();
     }
    
 }

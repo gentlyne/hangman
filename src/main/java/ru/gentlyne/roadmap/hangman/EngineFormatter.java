@@ -86,7 +86,7 @@ public class EngineFormatter {
     }
     
     private void formatGuessedLetters(StringBuffer result, Engine engine) {
-        result.append(String.join(" ", (new String(engine.getHiddenChars()).split(""))));
+        result.append(String.join(" ", (new String(engine.getGuessedChars()).toUpperCase().split(""))));
         result.append(System.lineSeparator());
     }
     
