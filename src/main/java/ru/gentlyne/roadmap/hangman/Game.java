@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Game {
     
     public void start() {        
-        WordSource source = new StaticWordSource();
+        WordSource source = new WordSource();
         Engine engine = new Engine(source.getWords());
         EngineFormatter formatter = new EngineFormatter();
         while (!engine.isWinGame() && !engine.isLossGame()) {

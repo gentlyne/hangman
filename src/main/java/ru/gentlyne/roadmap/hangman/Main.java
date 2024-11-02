@@ -6,12 +6,12 @@ public class Main {
     
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);  
-        System.out.println("Друг, добро пожаловать в игру \"Виселица\"");
+        System.out.println("Р”СЂСѓРі, РґРѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ РІ РёРіСЂСѓ \"Р’РёСЃРµР»РёС†Р°\"");
         int choose = 0;
         while (choose != 2) {
-            System.out.println("[1] Начало игры");
-            System.out.println("[2] Выход");
-            System.out.print("Введите пункт: ");
+            System.out.println("[1] РќР°С‡Р°Р»Рѕ РёРіСЂС‹");
+            System.out.println("[2] Р’С‹С…РѕРґ");
+            System.out.print("Р’РІРµРґРёС‚Рµ РїСѓРЅРєС‚: ");
             
             choose = scanner.nextInt();
             
@@ -20,9 +20,9 @@ public class Main {
                 Game game = new Game();
                 game.start();
             } else if (choose == 2) {
-                System.out.println("Очень жаль, пока!");
+                System.out.println("РћС‡РµРЅСЊ Р¶Р°Р»СЊ, РїРѕРєР°!");
             } else {
-                System.err.println("Нет такого пункта. Повторите еще раз!");
+                System.err.println("РќРµС‚ С‚Р°РєРѕРіРѕ РїСѓРЅРєС‚Р°. РџРѕРІС‚РѕСЂРёС‚Рµ РµС‰Рµ СЂР°Р·!");
             }
         }
         scanner.close();

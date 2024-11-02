@@ -6,18 +6,19 @@ public class Engine {
     
     public static final int LENGTH_WORST_CHARS = 6;
     
-    private String hiddenWord;
-    private char[] guessedChars;
-    private List<Character> worstChars = new ArrayList<>(LENGTH_WORST_CHARS);
+    private final String hiddenWord;
+    private final char[] guessedChars;
+    private final List<Character> worstChars = new ArrayList<>(LENGTH_WORST_CHARS);
     
     public Engine(String[] poolWords) {
         Random random = new Random(System.currentTimeMillis());
         this.hiddenWord = poolWords[random.nextInt(poolWords.length)].toLowerCase();
-        this.guessedChars = "_".repeat(this.hiddenWord.length()).toCharArray();
+        this.guessedChars = new char[this.hiddenWord.length()];
+        Arrays.fill(this.guessedChars, '_');
     }
     
     public boolean isWinGame() {
-        return hiddenWord.equals(new String(guessedChars));
+        return hiddenWord.equals(getGuessedLetter());
     }
     
     public boolean isLossGame() {
@@ -28,7 +29,6 @@ public class Engine {
         if (input.length() != 1) {
             throw new IllegalLetterException();
         }
-        
         suggestLetter(input.charAt(0));
     }
     
@@ -48,8 +48,8 @@ public class Engine {
         }
     }
 
-    public char[] getGuessedChars() {
-        return guessedChars;
+    public String getGuessedLetter() {
+        return new String(guessedChars);
     }
     
     public int getCountWorstChars() {
