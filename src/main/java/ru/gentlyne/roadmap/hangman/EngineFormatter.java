@@ -1,5 +1,7 @@
 package ru.gentlyne.roadmap.hangman;
 
+import java.util.Set;
+
 public class EngineFormatter {
     
     private final String[] hangmanPics = {"""
@@ -96,13 +98,17 @@ public class EngineFormatter {
     }
     
     private void formatHangman(StringBuffer result, Engine engine) {
-        result.append(hangmanPics[engine.getCountWorstChars()])
+        result.append(hangmanPics[engine.getWorstChars().size()])
                 .append(System.lineSeparator());
     }
     
     private void formatErrors(StringBuffer result, Engine engine) {
+        Set<Character> worstChars = engine.getWorstChars();
         result.append("Ошибок: ")
-                .append(engine.getCountWorstChars())
+                .append(worstChars.size())
+                .append(" - {")
+                .append(String.join(", ", worstChars.stream().map(String::valueOf).toArray(String[]::new)))
+                .append("}")
                 .append(System.lineSeparator());
     }
 }
