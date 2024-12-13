@@ -52,8 +52,8 @@ public class EngineFormatter {
            / \\  ║
                 ║
           ══════╩══"""};
-    
-    public String format(Engine engine) {        
+
+    public String format(Engine engine) {
         StringBuffer result = new StringBuffer(); 
         
         formatGame(result, engine);
@@ -67,7 +67,10 @@ public class EngineFormatter {
         if (!engine.isWinGame()) {
             return ;
         }
-        result.append("Поздравляем, вы выиграли")
+        result.append("Вы совершенно правы. Это - ")
+                .append(engine.getAnswer().toUpperCase())
+                .append(System.lineSeparator())
+                .append("У нас есть победитель. Хотите сыграть ещё?")
                 .append(System.lineSeparator());
     }
     
@@ -75,7 +78,8 @@ public class EngineFormatter {
         if (!engine.isLossGame()) {
             return ;
         }
-        result.append("Сожалею, вы проиграли")
+        result.append("Сожалею, вы проиграли. Загаданное слово было: ")
+                .append(engine.getAnswer().toUpperCase())
                 .append(System.lineSeparator());
     }
     

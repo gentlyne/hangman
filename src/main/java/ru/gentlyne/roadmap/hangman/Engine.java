@@ -5,24 +5,34 @@ import java.util.*;
 public class Engine {
     
     public static final int LENGTH_WORST_CHARS = 6;
-    
-    private final String hiddenWord;
-    private final char[] guessedChars;
-    private final List<Character> worstChars = new ArrayList<>(LENGTH_WORST_CHARS);
-    
+
+    private final String[] poolWords;
+    private final Set<Character> worstChars = new HashSet<>(LENGTH_WORST_CHARS);
+    private String hiddenWord;
+    private char[] guessedChars;
+
     public Engine(String[] poolWords) {
+        this.poolWords = poolWords;
+    }
+
+    public void reset() {
         Random random = new Random(System.currentTimeMillis());
         this.hiddenWord = poolWords[random.nextInt(poolWords.length)].toLowerCase();
         this.guessedChars = new char[this.hiddenWord.length()];
         Arrays.fill(this.guessedChars, '_');
+        worstChars.clear();
     }
-    
+
     public boolean isWinGame() {
         return hiddenWord.equals(getGuessedLetter());
     }
     
     public boolean isLossGame() {
         return worstChars.size() >= LENGTH_WORST_CHARS;
+    }
+
+    public boolean isEndGame() {
+        return isLossGame() || isWinGame();
     }
     
     public void suggestLetter(String input) {
@@ -36,10 +46,10 @@ public class Engine {
         if (!Character.isLetter(input) || ! Character.isLowerCase(input)) {
             throw new IllegalLetterException();
         }
-        
+
         int index = hiddenWord.indexOf(input);
-        if (index == -1 && !worstChars.contains(input)) {
-            worstChars.add(input);      
+        if (index == -1) {
+            worstChars.add(input);
         } else {
             while (index > -1) {
                 guessedChars[index] = input;
@@ -55,5 +65,11 @@ public class Engine {
     public int getCountWorstChars() {
         return worstChars.size();
     }
-   
+
+    public String getAnswer() {
+      if (!isEndGame()) {
+          throw new GameNotFinishedException();
+      }
+      return hiddenWord;
+    }
 }
