@@ -2,58 +2,58 @@ package ru.gentlyne.roadmap.hangman;
 
 public class EngineFormatter {
     
-    private String[] hangmanPics = {"""
-            +---+
-            |   |
-                |
-                |
-                |
-                |
-          =========""", """
-            +---+
-            |   |
-            O   |
-                |
-                |
-                |
-          =========""", """
-            +---+
-            |   |
-            O   |
-            |   |
-                |
-                |
-          =========""", """
-            +---+
-            |   |
-            O   |
-           /|   |
-                |
-                |
-          =========""", """
-            +---+
-            |   |
-            O   |
-           /|\\  |
-                |
-                |
-          =========""", """
-            +---+
-            |   |
-            O   |
-           /|\\  |
-           /    |
-                |
-          =========""", """
-            +---+
-            |   |
-            O   |
-           /|\\  |
-           / \\  |
-                |
-          ========="""};
-    
-    public String format(Engine engine) {        
+    private final String[] hangmanPics = {"""
+           ═╤═══╗
+            │   ║
+                ║
+                ║
+                ║
+                ║
+          ══════╩══""", """
+           ═╤═══╗
+            │   ║
+            O   ║
+                ║
+                ║
+                ║
+          ══════╩══""", """
+           ═╤═══╗
+            │   ║
+            O   ║
+            |   ║
+                ║
+                ║
+          ══════╩══""", """
+           ═╤═══╗
+            │   ║
+            O   ║
+           /│   ║
+                ║
+                ║
+          ══════╩══""", """
+           ═╤═══╗
+            │   ║
+            O   ║
+           /│\\  ║
+                ║
+                ║
+          ══════╩══""", """
+           ═╤═══╗
+            │   ║
+            O   ║
+           /│\\  ║
+           /    ║
+                ║
+          ══════╩══""", """
+           ═╤═══╗
+            │   ║
+            O   ║
+           /│\\  ║
+           / \\  ║
+                ║
+          ══════╩══"""};
+
+    public String format(Engine engine) {
         StringBuffer result = new StringBuffer(); 
         
         formatGame(result, engine);
@@ -67,16 +67,20 @@ public class EngineFormatter {
         if (!engine.isWinGame()) {
             return ;
         }
-        result.append("�����������, �� ��������");
-        result.append(System.lineSeparator());
+        result.append("Вы совершенно правы. Это - ")
+                .append(engine.getAnswer().toUpperCase())
+                .append(System.lineSeparator())
+                .append("У нас есть победитель. Хотите сыграть ещё?")
+                .append(System.lineSeparator());
     }
     
     private void formatLossGame(StringBuffer result, Engine engine) {
         if (!engine.isLossGame()) {
             return ;
         }
-        result.append("�������, �� ���������");
-        result.append(System.lineSeparator());
+        result.append("Сожалею, вы проиграли. Загаданное слово было: ")
+                .append(engine.getAnswer().toUpperCase())
+                .append(System.lineSeparator());
     }
     
     private void formatGame(StringBuffer result, Engine engine) {
@@ -86,17 +90,19 @@ public class EngineFormatter {
     }
     
     private void formatGuessedLetters(StringBuffer result, Engine engine) {
-        result.append(String.join(" ", (new String(engine.getGuessedChars()).toUpperCase().split(""))));
-        result.append(System.lineSeparator());
+        String[] guessedString = engine.getGuessedLetter().toUpperCase().split("");
+        result.append(String.join(" ", guessedString))
+                .append(System.lineSeparator());
     }
     
     private void formatHangman(StringBuffer result, Engine engine) {
-        result.append(hangmanPics[engine.getCountWorstChars()]);        
-        result.append(System.lineSeparator());
+        result.append(hangmanPics[engine.getCountWorstChars()])
+                .append(System.lineSeparator());
     }
     
     private void formatErrors(StringBuffer result, Engine engine) {
-        result.append("������: " + engine.getCountWorstChars());
-        result.append(System.lineSeparator());
+        result.append("Ошибок: ")
+                .append(engine.getCountWorstChars())
+                .append(System.lineSeparator());
     }
 }
