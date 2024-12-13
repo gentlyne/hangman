@@ -61,9 +61,9 @@ public class Engine {
     public String getGuessedLetter() {
         return new String(guessedChars);
     }
-    
-    public int getCountWorstChars() {
-        return worstChars.size();
+
+    public Set<Character> getWorstChars() {
+        return worstChars;
     }
 
     public String getAnswer() {
